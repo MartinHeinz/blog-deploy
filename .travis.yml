@@ -14,5 +14,10 @@ before_install:
   # test ssh connection for: https://github.com/dwyl/learn-travis/issues/42
 - ssh -i ./deploy_key root@${SERVER_IP_ADDRESS} pwd
 
-after_success:
-  - echo "Success"
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./src/deploy.sh $SERVER_IP_ADDRESS
+  on:
+    branch: master
+    tags: true
