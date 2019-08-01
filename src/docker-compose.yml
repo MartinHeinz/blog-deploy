@@ -1,0 +1,56 @@
+version: '3.7'
+services:
+  frontend:
+    image: martinheinz/blog_frontend:latest
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      PROD: ${PROD}
+      NGINX_HOST: ${NGINX_HOST}
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+  backend:
+    image: martinheinz/blog_backend:latest
+    container_name: backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "backend"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - blog_db
+    ports:
+      - 1234:1234
+    volumes:
+      - ./data/certbot/conf/live/${NGINX_HOST}:/etc/certs
+
+  blog_db:
+    image: martinheinz/blog_db:latest
+    container_name: db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5431:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      DB_NAME: "blog"
+      POSTGRES_DB: blog
+      PGPORT: 5432
+      POPULATE_DB: ${POPULATE_DB}
+
+volumes:
+  data: {}
