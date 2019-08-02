@@ -1,9 +1,13 @@
-scp docker-compose.yml root@${1}/blog/prod
-ssh -i ./deploy_key root@${1}
+scp ./src/docker-compose.yml root@${1}:/root/blog/prod/docker-compose.yml
+scp ./src/.env root@${1}:/root/blog/prod/.env
+ssh -i ./deploy_key root@${1} << EOF
 
-docker-compose stop
-docker-compose rm -f
-docker-compose pull
-docker-compose up -d
+    cd /root/blog/prod
+    docker-compose stop || true
+    docker-compose rm -f || true
+    docker-compose pull
+    docker-compose up -d
 
-logout
+    logout
+
+EOF

@@ -12,8 +12,8 @@ services:
       PROD: ${PROD}
       NGINX_HOST: ${NGINX_HOST}
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - /root/setup/data/certbot/conf:/etc/letsencrypt
+      - /root/setup/data/certbot/www:/var/www/certbot
 
   backend:
     image: martinheinz/blog_backend:latest
@@ -28,7 +28,7 @@ services:
     ports:
       - 1234:1234
     volumes:
-      - ./data/certbot/conf/live/${NGINX_HOST}:/etc/certs
+      - /root/setup/data/certbot/conf/live/${NGINX_HOST}:/etc/certs
 
   blog_db:
     image: martinheinz/blog_db:latest
