@@ -12,10 +12,5 @@ before_install:
 - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_key
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ./src/deploy.sh $SERVER_IP_ADDRESS
-  on:
-    branch: master
-    tags: true
+after_success:
+  - ./src/deploy.sh $SERVER_IP_ADDRESS
