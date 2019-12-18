@@ -20,11 +20,6 @@ services:
   backend:
     image: martinheinz/blog_backend:latest
     container_name: backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "backend"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
     depends_on:
       - blog_db
     ports:
@@ -44,8 +39,6 @@ services:
       - data:/var/lib/postgresql/data
     expose:
       - 5432
-    ports:
-      - 5431:5432
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
