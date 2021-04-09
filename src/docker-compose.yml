@@ -23,7 +23,7 @@ services:
     depends_on:
       - blog_db
     ports:
-      - 8080:8080
+      - 1234:1234
     volumes:
       - /root/setup/data/certbot/conf/live/${API_URL}:/etc/certs
 
