@@ -43,6 +43,7 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
+      BACKEND_API_KEY: ${BACKEND_API_KEY}
       DB_NAME: "blog"
       POSTGRES_DB: blog
       PGPORT: 5432
