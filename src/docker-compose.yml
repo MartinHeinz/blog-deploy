@@ -27,6 +27,8 @@ services:
       - 8080:8080
     volumes:
       - /root/setup/data/certbot/conf/live/${API_URL}:/etc/certs
+    environment:
+      BACKEND_API_KEY: ${BACKEND_API_KEY}
 
   blog_db:
     image: martinheinz/blog_db:latest
@@ -43,7 +45,6 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      BACKEND_API_KEY: ${BACKEND_API_KEY}
       DB_NAME: "blog"
       POSTGRES_DB: blog
       PGPORT: 5432
