@@ -1,10 +1,10 @@
 version: '3.7'
 services:
-  frontend:
-    image: martinheinz/blog_frontend:latest
-    container_name: frontend
+  cache:
+    image: martinheinz/blog_cache:latest
+    container_name: cache
     depends_on:
-      - backend
+      - origin
     ports:
       - 80:80
       - 443:443
@@ -13,8 +13,19 @@ services:
       NGINX_HOST: ${NGINX_HOST}
       API_URL: ${API_URL}
     volumes:
-      - /root/setup/data/certbot/conf:/etc/letsencrypt
-      - /root/setup/data/certbot/www:/var/www/certbot
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  origin:
+    image: martinheinz/blog_frontend:latest
+    container_name: frontend
+    depends_on:
+      - backend
+    expose:
+      - 8008
+    environment:
+      PROD: ${PROD}
+      API_URL: ${API_URL}
+    volumes:
       - /root/blog/prod/rss.xml:/home/rss.xml
       - /root/blog/prod/sitemap.xml:/home/sitemap.xml
       - /root/blog/prod/newsletter.xml:/home/newsletter.xml
