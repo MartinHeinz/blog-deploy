@@ -13,8 +13,8 @@ services:
       NGINX_HOST: ${NGINX_HOST}
       API_URL: ${API_URL}
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - /root/setup/data/certbot/conf:/etc/letsencrypt
+      - /root/setup/data/certbot/www:/var/www/certbot
   origin:
     image: martinheinz/blog_frontend:latest
     container_name: frontend
