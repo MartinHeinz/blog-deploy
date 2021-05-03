@@ -15,6 +15,9 @@ services:
     volumes:
       - /root/setup/data/certbot/conf:/etc/letsencrypt
       - /root/setup/data/certbot/www:/var/www/certbot
+      - /root/blog/prod/rss.xml:/home/rss.xml
+      - /root/blog/prod/sitemap.xml:/home/sitemap.xml
+      - /root/blog/prod/newsletter.xml:/home/newsletter.xml
   origin:
     image: martinheinz/blog_frontend:latest
     container_name: frontend
